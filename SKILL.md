@@ -7,13 +7,20 @@ description: >
   "WooCommerce", or requests to build/review/fix WordPress-related code.
   Ensures all generated code passes PHPCS (WordPress standard), ESLint (@wordpress/eslint-plugin),
   and Stylelint (@wordpress/stylelint-config) with zero errors.
+allowed-tools:
+  - Read
+  - Grep
+  - Glob
+  - Bash
+  - Write
+  - Edit
 ---
 
 # WordPress Development Skill
 
 Generate production-quality WordPress code that passes PHPCS, ESLint, and Stylelint with WordPress coding standards — zero errors out of the box.
 
-> **Install path note:** Throughout this file, `<SKILL_DIR>` refers to the root of this repository (where this `SKILL.md` lives). When this skill is installed into a project via `CLAUDE.md`, all paths resolve relative to the cloned location.
+**Skill directory:** `~/.claude/skills/wordpress-dev/`
 
 ---
 
@@ -21,17 +28,15 @@ Generate production-quality WordPress code that passes PHPCS, ESLint, and Stylel
 
 1. **Read this file** (you're doing it now).
 2. **Identify what the user needs** — plugin, theme, WooCommerce extension, block, REST API, etc.
-3. **Read the relevant reference files** before writing any code:
-   - Always read: `references/php-standards.md`
-   - If JS is involved: `references/js-standards.md`
-   - If CSS/SCSS is involved: `references/css-standards.md`
-   - If security-sensitive (forms, payments, user data, DB queries, AJAX): `references/security-checklist.md`
-   - If WooCommerce: `references/woocommerce.md`
-4. **Copy config templates** from `templates/` into the project root, then customize placeholders.
-5. **Generate code** following the standards from those references.
-6. **Set up linting environment** using the appropriate setup script (see below).
-7. **Run linters** and iterate until clean.
-8. **Deliver** validated files to the project output directory.
+3. **Read the relevant reference files** before writing any code. Use the Read tool with these absolute paths:
+   - Always read: `~/.claude/skills/wordpress-dev/references/php-standards.md`
+   - Always read: `~/.claude/skills/wordpress-dev/references/security-checklist.md`
+   - If JS is involved: `~/.claude/skills/wordpress-dev/references/js-standards.md`
+   - If CSS/SCSS is involved: `~/.claude/skills/wordpress-dev/references/css-standards.md`
+   - If WooCommerce: `~/.claude/skills/wordpress-dev/references/woocommerce.md`
+4. **Generate code** following the standards from those references.
+5. Optionally **copy config templates** from `~/.claude/skills/wordpress-dev/templates/` into the project root.
+6. Optionally **run linters** using scripts in `~/.claude/skills/wordpress-dev/scripts/`.
 
 ---
 
@@ -54,61 +59,29 @@ When in doubt, read `php-standards.md` and `security-checklist.md` — they appl
 
 ---
 
-## Environment Setup
+## Linting (Optional)
 
-### Detect Platform and Run Setup
+If PHP, Composer, npm are available, run linters against the project:
 
 **Linux / macOS / WSL / Git Bash:**
 ```bash
-bash <SKILL_DIR>/scripts/setup-environment.sh /path/to/project
+# First-time setup
+bash ~/.claude/skills/wordpress-dev/scripts/setup-environment.sh /path/to/project
+
+# Run linters
+bash ~/.claude/skills/wordpress-dev/scripts/lint-all.sh /path/to/project [--fix]
 ```
 
 **Windows (PowerShell):**
 ```powershell
-& <SKILL_DIR>\scripts\setup-environment.ps1 -ProjectDir C:\path\to\project
+# First-time setup
+& $env:USERPROFILE\.claude\skills\wordpress-dev\scripts\setup-environment.ps1 -ProjectDir C:\path\to\project
+
+# Run linters
+& $env:USERPROFILE\.claude\skills\wordpress-dev\scripts\lint-all.ps1 -ProjectDir C:\path\to\project [-Fix]
 ```
 
-Both scripts install:
-- **PHP**: `phpcs` + `phpcbf` with `WordPress` standard via Composer
-- **JS**: `eslint` with `@wordpress/eslint-plugin` via npm
-- **CSS**: `stylelint` with `@wordpress/stylelint-config` via npm
-
-If Composer or npm are unavailable, the scripts will warn. In that case, **rely on the reference files to write standards-compliant code from the start** — the references are comprehensive enough that code generated following them closely should pass with minimal issues.
-
----
-
-## Linting Workflow
-
-### Run Linters
-
-**Linux / macOS / WSL / Git Bash:**
-```bash
-bash <SKILL_DIR>/scripts/lint-all.sh /path/to/project [--fix] [--php-only] [--js-only] [--css-only]
-```
-
-**Windows (PowerShell):**
-```powershell
-& <SKILL_DIR>\scripts\lint-all.ps1 -ProjectDir C:\path\to\project [-Fix] [-PhpOnly] [-JsOnly] [-CssOnly]
-```
-
-The `--fix` / `-Fix` flag attempts auto-fixing before reporting. The workflow is:
-
-```
-1. PHPCBF auto-fix (if --fix)     →  fixes ~60-70% of PHP formatting issues
-2. PHPCS scan                      →  reports remaining PHP issues
-3. ESLint --fix (if --fix)         →  fixes JS issues
-4. ESLint scan                     →  reports remaining JS issues
-5. Stylelint --fix (if --fix)      →  fixes CSS issues
-6. Stylelint scan                  →  reports remaining CSS issues
-```
-
-### Iteration Loop
-
-If linters report errors:
-1. Read the error messages carefully — they include the sniff/rule name.
-2. Fix each issue in the source code.
-3. Re-run the linter on the specific file: `vendor/bin/phpcs --standard=WordPress -s file.php`
-4. Repeat until zero errors.
+If linting tools are unavailable, **rely on the reference files** — they are comprehensive enough to produce clean code.
 
 **Warnings are acceptable.** Errors are not. The goal is: `FOUND 0 ERRORS`.
 
@@ -116,16 +89,13 @@ If linters report errors:
 
 ## Project Configuration Templates
 
-When creating a new WordPress project, copy templates from the `templates/` directory into the project root:
+When creating a new WordPress project, copy templates from `~/.claude/skills/wordpress-dev/templates/` into the project root:
 
-```
-templates/
-├── phpcs.xml.dist       → project-root/phpcs.xml.dist
-├── .eslintrc.json       → project-root/.eslintrc.json
-├── .stylelintrc.json    → project-root/.stylelintrc.json
-├── composer.json        → project-root/composer.json
-└── package.json         → project-root/package.json
-```
+- `phpcs.xml.dist` — PHPCS config
+- `.eslintrc.json` — ESLint config
+- `.stylelintrc.json` — Stylelint config
+- `composer.json` — PHP dev dependencies
+- `package.json` — JS dev dependencies
 
 After copying, **always** replace placeholder values:
 - `CHANGE-ME` → actual text domain (e.g., `my-plugin`)
