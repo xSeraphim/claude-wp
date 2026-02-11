@@ -1,0 +1,19 @@
+# Dependencies (these are for target projects, not this repo)
+node_modules/
+vendor/
+
+# OS files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Build artifacts
+build/
+dist/

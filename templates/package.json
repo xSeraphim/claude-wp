@@ -1,0 +1,17 @@
+{
+    "name": "my-project",
+    "private": true,
+    "devDependencies": {
+        "@wordpress/eslint-plugin": "^21.0",
+        "@wordpress/stylelint-config": "^23.0",
+        "eslint": "^8.0",
+        "stylelint": "^16.0"
+    },
+    "scripts": {
+        "lint:js": "eslint 'assets/js/**/*.js' 'src/**/*.js'",
+        "lint:css": "stylelint 'assets/css/**/*.css' 'src/**/*.css'",
+        "fix:js": "eslint --fix 'assets/js/**/*.js' 'src/**/*.js'",
+        "fix:css": "stylelint --fix 'assets/css/**/*.css' 'src/**/*.css'",
+        "lint": "npm run lint:js && npm run lint:css"
+    }
+}
