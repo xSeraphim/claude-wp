@@ -2,6 +2,27 @@
 
 A Claude Code skill for WordPress development. Generates production-quality WordPress code that passes PHPCS, ESLint, and Stylelint with zero errors out of the box.
 
+## Quick Install
+
+**Linux / macOS / WSL:**
+```bash
+curl -fsSL https://raw.githubusercontent.com/xSeraphim/claude-wp/main/install.sh | bash
+```
+
+**Windows (PowerShell):**
+```powershell
+irm https://raw.githubusercontent.com/xSeraphim/claude-wp/main/install.ps1 | iex
+```
+
+**Manual install:**
+```bash
+git clone https://github.com/xSeraphim/claude-wp.git
+cd claude-wp
+./install.sh        # or .\install.ps1 on Windows
+```
+
+Installs to `~/.claude/skills/wordpress-dev/`.
+
 ## What's included
 
 | Path | Purpose |
@@ -16,75 +37,6 @@ A Claude Code skill for WordPress development. Generates production-quality Word
 | `templates/` | Ready-to-copy config files (phpcs.xml.dist, eslintrc, etc.) |
 | `scripts/` | Cross-platform setup and linting scripts |
 
-## Installation
-
-### Option 1: Clone into your project (recommended)
-
-```bash
-# From your WordPress project root
-git clone https://github.com/YOUR_USERNAME/claude-wp.git .claude-wp
-
-# Add to your project's CLAUDE.md
-echo "Read and follow all standards from .claude-wp/CLAUDE.md" >> CLAUDE.md
-```
-
-### Option 2: Global install for all WP projects
-
-**Linux / macOS:**
-```bash
-git clone https://github.com/YOUR_USERNAME/claude-wp.git ~/.claude-skills/wordpress-dev
-```
-
-**Windows (PowerShell):**
-```powershell
-git clone https://github.com/YOUR_USERNAME/claude-wp.git "$env:USERPROFILE\.claude-skills\wordpress-dev"
-```
-
-Then reference it in your project's `CLAUDE.md`:
-```markdown
-For WordPress development, read and follow the skill at ~/.claude-skills/wordpress-dev/CLAUDE.md
-```
-
-### Option 3: Use as Claude Code project instructions
-
-Add to `~/.claude/CLAUDE.md` (global) or your project's `CLAUDE.md`:
-```markdown
-When working on WordPress code, read the skill files at <path-to-claude-wp>/SKILL.md and follow all referenced standards.
-```
-
-## Setting up linting
-
-After cloning, set up the linting environment in your WP project:
-
-**Linux / macOS / WSL / Git Bash:**
-```bash
-bash <path-to-claude-wp>/scripts/setup-environment.sh /path/to/your/wp-project
-bash <path-to-claude-wp>/scripts/lint-all.sh /path/to/your/wp-project --fix
-```
-
-**Windows (PowerShell):**
-```powershell
-& <path-to-claude-wp>\scripts\setup-environment.ps1 -ProjectDir C:\path\to\your\wp-project
-& <path-to-claude-wp>\scripts\lint-all.ps1 -ProjectDir C:\path\to\your\wp-project -Fix
-```
-
-## Config templates
-
-Copy templates into your project root and customize:
-
-```bash
-cp templates/phpcs.xml.dist   your-project/phpcs.xml.dist
-cp templates/.eslintrc.json   your-project/.eslintrc.json
-cp templates/.stylelintrc.json your-project/.stylelintrc.json
-cp templates/composer.json    your-project/composer.json
-cp templates/package.json     your-project/package.json
-```
-
-Then replace placeholders:
-- `CHANGE-ME` → your text domain (e.g., `my-plugin`)
-- `change_me` → your function prefix (e.g., `my_plugin`)
-- `my-project` → your project name
-
 ## What it covers
 
 - **PHP**: Naming, formatting, Yoda conditions, DocBlocks, i18n, database queries, enqueuing
@@ -93,11 +45,53 @@ Then replace placeholders:
 - **Security**: Output escaping, input sanitization, nonce verification, capability checks, SQL injection prevention, file operations, REST API permissions
 - **WooCommerce**: HPOS compatibility, CRUD API, product/checkout/cart hooks, payment gateways, email hooks
 
-## Requirements
+## Setting up linting (optional)
 
-For linting (optional — the reference files work standalone):
-- PHP + Composer (for PHPCS)
-- Node.js + npm (for ESLint + Stylelint)
+The reference files work standalone — Claude reads them and follows the standards. For automated linting:
+
+**Linux / macOS / WSL / Git Bash:**
+```bash
+bash ~/.claude/skills/wordpress-dev/scripts/setup-environment.sh /path/to/your/wp-project
+bash ~/.claude/skills/wordpress-dev/scripts/lint-all.sh /path/to/your/wp-project --fix
+```
+
+**Windows (PowerShell):**
+```powershell
+& $env:USERPROFILE\.claude\skills\wordpress-dev\scripts\setup-environment.ps1 -ProjectDir C:\path\to\your\wp-project
+& $env:USERPROFILE\.claude\skills\wordpress-dev\scripts\lint-all.ps1 -ProjectDir C:\path\to\your\wp-project -Fix
+```
+
+Requires: PHP + Composer (for PHPCS) and Node.js + npm (for ESLint + Stylelint).
+
+## Config templates
+
+Copy templates into your project root and customize:
+
+```bash
+SKILL=~/.claude/skills/wordpress-dev
+cp $SKILL/templates/phpcs.xml.dist    your-project/phpcs.xml.dist
+cp $SKILL/templates/.eslintrc.json    your-project/.eslintrc.json
+cp $SKILL/templates/.stylelintrc.json your-project/.stylelintrc.json
+cp $SKILL/templates/composer.json     your-project/composer.json
+cp $SKILL/templates/package.json      your-project/package.json
+```
+
+Then replace placeholders:
+- `CHANGE-ME` → your text domain (e.g., `my-plugin`)
+- `change_me` → your function prefix (e.g., `my_plugin`)
+- `my-project` → your project name
+
+## Uninstall
+
+**Linux / macOS / WSL:**
+```bash
+curl -fsSL https://raw.githubusercontent.com/xSeraphim/claude-wp/main/uninstall.sh | bash
+```
+
+**Windows (PowerShell):**
+```powershell
+irm https://raw.githubusercontent.com/xSeraphim/claude-wp/main/uninstall.ps1 | iex
+```
 
 ## License
 
