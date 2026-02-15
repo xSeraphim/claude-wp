@@ -35,7 +35,7 @@ Generate production-quality WordPress code aligned with PHPCS, ESLint, and Style
    - If WooCommerce is involved: `~/.claude/skills/wordpress-dev/references/woocommerce.md`
 3. Generate code using the loaded standards.
 4. If needed, copy templates from `~/.claude/skills/wordpress-dev/templates/`.
-5. If tools are available, run linters in `~/.claude/skills/wordpress-dev/scripts/`.
+5. If tools are available, run a preflight check and linters in `~/.claude/skills/wordpress-dev/scripts/`.
 
 ---
 
@@ -78,6 +78,18 @@ bash ~/.claude/skills/wordpress-dev/scripts/lint-all.sh /path/to/project [--fix]
 
 # Run linters
 & $env:USERPROFILE\.claude\skills\wordpress-dev\scripts\lint-all.ps1 -ProjectDir C:\path\to\project [-Fix]
+```
+
+Run a preflight check before linting to catch unresolved placeholders and missing config:
+
+**Linux / macOS / WSL / Git Bash:**
+```bash
+bash ~/.claude/skills/wordpress-dev/scripts/preflight-check.sh /path/to/project
+```
+
+**Windows (PowerShell):**
+```powershell
+& $env:USERPROFILE\.claude\skills\wordpress-dev\scripts\preflight-check.ps1 -ProjectDir C:\path\to\project
 ```
 
 If linting tools are unavailable, rely on the reference files and still follow all standards.

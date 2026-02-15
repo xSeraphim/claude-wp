@@ -19,10 +19,10 @@ When creating a new WordPress project, copy the relevant files from `templates/`
 
 ## Linting
 
-Run linters using the platform-appropriate script from `scripts/`:
+Run checks using the platform-appropriate scripts from `scripts/`:
 
-- **Bash (Linux/macOS/WSL):** `bash scripts/setup-environment.sh <project>` then `bash scripts/lint-all.sh <project> --fix`
-- **PowerShell (Windows):** `scripts\setup-environment.ps1 -ProjectDir <project>` then `scripts\lint-all.ps1 -ProjectDir <project> -Fix`
+- **Bash (Linux/macOS/WSL):** `bash scripts/setup-environment.sh <project>` then `bash scripts/preflight-check.sh <project>` then `bash scripts/lint-all.sh <project> --fix`
+- **PowerShell (Windows):** `scripts\setup-environment.ps1 -ProjectDir <project>` then `scripts\preflight-check.ps1 -ProjectDir <project>` then `scripts\lint-all.ps1 -ProjectDir <project> -Fix`
 
 ## Critical rules (always follow)
 

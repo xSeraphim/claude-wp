@@ -62,7 +62,7 @@ main() {
         mkdir -p "${SKILL_DIR}/scripts"
         cp -r "${SRC}/scripts/"* "${SKILL_DIR}/scripts/"
         chmod +x "${SKILL_DIR}/scripts/"*.sh 2>/dev/null || true
-        echo "  ✓ Scripts: setup-environment.sh/.ps1, lint-all.sh/.ps1"
+        echo "  ✓ Scripts: setup-environment, preflight-check, lint-all (Bash + PowerShell)"
     fi
 
     echo ""

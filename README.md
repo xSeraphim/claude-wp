@@ -1,6 +1,6 @@
 # claude-wp
 
-A Claude Code skill for WordPress development. Generates production-quality WordPress code that passes PHPCS, ESLint, and Stylelint with zero errors out of the box.
+A Claude Code skill for WordPress development. Generates production-quality WordPress code aligned with PHPCS, ESLint, and Stylelint standards.
 
 ## Quick Install
 
@@ -35,7 +35,7 @@ Installs to `~/.claude/skills/wordpress-dev/`.
 | `references/security-checklist.md` | Security patterns — escaping, sanitization, nonces, SQL |
 | `references/woocommerce.md` | WooCommerce-specific hooks, HPOS, CRUD API |
 | `templates/` | Ready-to-copy config files (phpcs.xml.dist, eslintrc, etc.) |
-| `scripts/` | Cross-platform setup and linting scripts |
+| `scripts/` | Cross-platform setup, preflight checks, and linting scripts |
 
 ## What it covers
 
@@ -44,6 +44,7 @@ Installs to `~/.claude/skills/wordpress-dev/`.
 - **CSS**: Selectors, property ordering, admin styling, RTL compatibility, SCSS
 - **Security**: Output escaping, input sanitization, nonce verification, capability checks, SQL injection prevention, file operations, REST API permissions
 - **WooCommerce**: HPOS compatibility, CRUD API, product/checkout/cart hooks, payment gateways, email hooks
+- **Preflight checks**: Detect unresolved template placeholders and missing recommended lint config files before running linters
 
 ## Setting up linting (optional)
 
@@ -52,12 +53,14 @@ The reference files work standalone — Claude reads them and follows the standa
 **Linux / macOS / WSL / Git Bash:**
 ```bash
 bash ~/.claude/skills/wordpress-dev/scripts/setup-environment.sh /path/to/your/wp-project
+bash ~/.claude/skills/wordpress-dev/scripts/preflight-check.sh /path/to/your/wp-project
 bash ~/.claude/skills/wordpress-dev/scripts/lint-all.sh /path/to/your/wp-project --fix
 ```
 
 **Windows (PowerShell):**
 ```powershell
 & $env:USERPROFILE\.claude\skills\wordpress-dev\scripts\setup-environment.ps1 -ProjectDir C:\path\to\your\wp-project
+& $env:USERPROFILE\.claude\skills\wordpress-dev\scripts\preflight-check.ps1 -ProjectDir C:\path\to\your\wp-project
 & $env:USERPROFILE\.claude\skills\wordpress-dev\scripts\lint-all.ps1 -ProjectDir C:\path\to\your\wp-project -Fix
 ```
 
