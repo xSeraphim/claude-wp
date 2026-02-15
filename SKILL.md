@@ -5,8 +5,8 @@ description: >
   WooCommerce extensions, mu-plugins, custom blocks, REST endpoints, or any WordPress PHP/JS/CSS.
   Triggers: "WordPress", "WP plugin", "WP theme", "PHPCS", "WPCS", "WordPress coding standards",
   "WooCommerce", or requests to build/review/fix WordPress-related code.
-  Ensures all generated code passes PHPCS (WordPress standard), ESLint (@wordpress/eslint-plugin),
-  and Stylelint (@wordpress/stylelint-config) with zero errors.
+  Produces WordPress code aligned with PHPCS (WordPress standard), ESLint (@wordpress/eslint-plugin),
+  and Stylelint (@wordpress/stylelint-config) rules.
 allowed-tools:
   - Read
   - Grep
@@ -18,7 +18,7 @@ allowed-tools:
 
 # WordPress Development Skill
 
-Generate production-quality WordPress code that passes PHPCS, ESLint, and Stylelint with WordPress coding standards — zero errors out of the box.
+Generate production-quality WordPress code aligned with PHPCS, ESLint, and Stylelint WordPress standards.
 
 **Skill directory:** `~/.claude/skills/wordpress-dev/`
 
@@ -26,17 +26,16 @@ Generate production-quality WordPress code that passes PHPCS, ESLint, and Stylel
 
 ## Quick Start
 
-1. **Read this file** (you're doing it now).
-2. **Identify what the user needs** — plugin, theme, WooCommerce extension, block, REST API, etc.
-3. **Read the relevant reference files** before writing any code. Use the Read tool with these absolute paths:
-   - Always read: `~/.claude/skills/wordpress-dev/references/php-standards.md`
-   - Always read: `~/.claude/skills/wordpress-dev/references/security-checklist.md`
+1. Identify the request type (plugin, theme, WooCommerce extension, block, REST API, etc.).
+2. Read required references **before** writing code:
+   - Always: `~/.claude/skills/wordpress-dev/references/php-standards.md`
+   - Always: `~/.claude/skills/wordpress-dev/references/security-checklist.md`
    - If JS is involved: `~/.claude/skills/wordpress-dev/references/js-standards.md`
    - If CSS/SCSS is involved: `~/.claude/skills/wordpress-dev/references/css-standards.md`
-   - If WooCommerce: `~/.claude/skills/wordpress-dev/references/woocommerce.md`
-4. **Generate code** following the standards from those references.
-5. Optionally **copy config templates** from `~/.claude/skills/wordpress-dev/templates/` into the project root.
-6. Optionally **run linters** using scripts in `~/.claude/skills/wordpress-dev/scripts/`.
+   - If WooCommerce is involved: `~/.claude/skills/wordpress-dev/references/woocommerce.md`
+3. Generate code using the loaded standards.
+4. If needed, copy templates from `~/.claude/skills/wordpress-dev/templates/`.
+5. If tools are available, run linters in `~/.claude/skills/wordpress-dev/scripts/`.
 
 ---
 
@@ -81,9 +80,9 @@ bash ~/.claude/skills/wordpress-dev/scripts/lint-all.sh /path/to/project [--fix]
 & $env:USERPROFILE\.claude\skills\wordpress-dev\scripts\lint-all.ps1 -ProjectDir C:\path\to\project [-Fix]
 ```
 
-If linting tools are unavailable, **rely on the reference files** — they are comprehensive enough to produce clean code.
+If linting tools are unavailable, rely on the reference files and still follow all standards.
 
-**Warnings are acceptable.** Errors are not. The goal is: `FOUND 0 ERRORS`.
+Treat warnings as acceptable unless the user asks for warning-free output. Errors are not acceptable.
 
 ---
 
