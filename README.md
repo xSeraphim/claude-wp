@@ -35,7 +35,11 @@ Installs to `~/.claude/skills/wordpress-dev/`.
 | `references/security-checklist.md` | Security patterns — escaping, sanitization, nonces, SQL |
 | `references/woocommerce.md` | WooCommerce-specific hooks, HPOS, CRUD API |
 | `references/task-recipes.md` | Recipe playbooks for common tasks (plugin/settings/REST/block/WC) |
-| `templates/` | Ready-to-copy config files (phpcs.xml.dist, eslintrc, etc.) |
+| `references/performance.md` | Performance guidance (query limits, caching, assets) |
+| `references/testing.md` | Testing guidance (WP_UnitTestCase/Jest strategy) |
+| `references/fse.md` | Full Site Editing and block theme guidance |
+| `references/mcp-wordpress.md` | Optional live-context workflow with WordPress MCP |
+| `templates/` | Ready-to-copy config, tests, and CI workflow templates |
 | `scripts/` | Cross-platform setup, preflight checks, and linting scripts |
 
 ## What it covers
@@ -46,6 +50,10 @@ Installs to `~/.claude/skills/wordpress-dev/`.
 - **Security**: Output escaping, input sanitization, nonce verification, capability checks, SQL injection prevention, file operations, REST API permissions
 - **WooCommerce**: HPOS compatibility, CRUD API, product/checkout/cart hooks, payment gateways, email hooks
 - **Preflight checks**: Detect unresolved template placeholders and missing recommended lint config files before running linters
+- **Performance**: Query discipline, object/transient caching, and asset strategy guardrails
+- **Testing**: Guidance and templates for PHPUnit/Jest-oriented validation
+- **Modern themes**: FSE support with `theme.json` and block pattern recommendations
+- **Live context**: Optional MCP workflow for inspecting active site state before coding
 
 ## Setting up linting (optional)
 
@@ -78,6 +86,11 @@ cp $SKILL/templates/.eslintrc.json    your-project/.eslintrc.json
 cp $SKILL/templates/.stylelintrc.json your-project/.stylelintrc.json
 cp $SKILL/templates/composer.json     your-project/composer.json
 cp $SKILL/templates/package.json      your-project/package.json
+mkdir -p your-project/tests
+cp $SKILL/templates/tests/phpunit-bootstrap.php your-project/tests/bootstrap.php
+cp $SKILL/templates/tests/test-sample.php       your-project/tests/test-sample.php
+mkdir -p your-project/.github/workflows
+cp $SKILL/templates/.github/workflows/wp-standards.yml your-project/.github/workflows/wp-standards.yml
 ```
 
 Then replace placeholders:

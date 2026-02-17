@@ -12,7 +12,11 @@ Before writing any WordPress code, read the relevant reference files from this s
 4. **If JS is involved:** `references/js-standards.md`
 5. **If CSS is involved:** `references/css-standards.md`
 6. **If WooCommerce:** `references/woocommerce.md`
-7. **For common tasks:** `references/task-recipes.md`
+7. **If performance-sensitive:** `references/performance.md`
+8. **If critical logic/endpoints:** `references/testing.md`
+9. **If block theme/FSE work:** `references/fse.md`
+10. **For common tasks:** `references/task-recipes.md`
+11. **If MCP is available:** `references/mcp-wordpress.md`
 
 ## Config templates
 

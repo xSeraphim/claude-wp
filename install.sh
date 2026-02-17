@@ -45,16 +45,20 @@ main() {
     if [ -d "${SRC}/references" ]; then
         mkdir -p "${SKILL_DIR}/references"
         cp -r "${SRC}/references/"* "${SKILL_DIR}/references/"
-        echo "  ✓ References: php-standards, js-standards, css-standards, security-checklist, woocommerce"
+        echo "  ✓ References: standards, security, WooCommerce, recipes, performance, testing, FSE, MCP"
     fi
 
     # Copy templates
     if [ -d "${SRC}/templates" ]; then
         mkdir -p "${SKILL_DIR}/templates"
         cp -r "${SRC}/templates/"* "${SKILL_DIR}/templates/"
-        # Also copy dotfiles that cp * might miss
+        # Also copy dotfiles/dirs that cp * might miss
         cp "${SRC}/templates/".* "${SKILL_DIR}/templates/" 2>/dev/null || true
-        echo "  ✓ Templates: phpcs.xml.dist, .eslintrc.json, .stylelintrc.json, composer.json, package.json"
+        if [ -d "${SRC}/templates/.github" ]; then
+            mkdir -p "${SKILL_DIR}/templates/.github"
+            cp -r "${SRC}/templates/.github/"* "${SKILL_DIR}/templates/.github/"
+        fi
+        echo "  ✓ Templates: configs, tests bootstrap, and CI workflow"
     fi
 
     # Copy scripts

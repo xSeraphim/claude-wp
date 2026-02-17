@@ -33,27 +33,31 @@ Generate production-quality WordPress code aligned with PHPCS, ESLint, and Style
    - If JS is involved: `~/.claude/skills/wordpress-dev/references/js-standards.md`
    - If CSS/SCSS is involved: `~/.claude/skills/wordpress-dev/references/css-standards.md`
    - If WooCommerce is involved: `~/.claude/skills/wordpress-dev/references/woocommerce.md`
+   - If high-traffic/query-heavy: `~/.claude/skills/wordpress-dev/references/performance.md`
+   - If block theme/FSE: `~/.claude/skills/wordpress-dev/references/fse.md`
+   - If critical logic or endpoints: `~/.claude/skills/wordpress-dev/references/testing.md`
 3. Generate code using the loaded standards.
 4. If needed, copy templates from `~/.claude/skills/wordpress-dev/templates/`.
 5. If tools are available, run a preflight check and linters in `~/.claude/skills/wordpress-dev/scripts/`.
 6. For common request types, load `~/.claude/skills/wordpress-dev/references/task-recipes.md` and follow the matching recipe.
+7. If WordPress MCP is available, load `~/.claude/skills/wordpress-dev/references/mcp-wordpress.md` and incorporate live context safely.
 
 ---
 
 ## Decision Matrix: Which References to Read
 
-| Request Type | php-standards | js-standards | css-standards | security-checklist | woocommerce |
-|---|---|---|---|---|---|
-| Plugin (PHP only) | YES | — | — | YES | — |
-| Plugin (full stack) | YES | YES | YES | YES | — |
-| Theme | YES | YES | YES | YES | — |
-| Gutenberg Block | YES | YES | YES | — | — |
-| WooCommerce Extension | YES | YES | YES | YES | YES |
-| REST API Endpoint | YES | — | — | YES | — |
-| AJAX Handler | YES | YES | — | YES | — |
-| Admin Settings Page | YES | YES | YES | YES | — |
-| Widget / Shortcode | YES | — | YES | YES | — |
-| Code Review / Fix | YES | (if JS) | (if CSS) | YES | (if WC) |
+| Request Type | php-standards | js-standards | css-standards | security-checklist | woocommerce | performance | testing | fse |
+|---|---|---|---|---|---|---|---|---|
+| Plugin (PHP only) | YES | — | — | YES | — | (if heavy) | (if critical) | — |
+| Plugin (full stack) | YES | YES | YES | YES | — | (if heavy) | (if critical) | — |
+| Theme | YES | YES | YES | YES | — | (if heavy) | (if critical) | (if block theme) |
+| Gutenberg Block | YES | YES | YES | — | — | (if heavy) | (if critical) | YES |
+| WooCommerce Extension | YES | YES | YES | YES | YES | YES | (if critical) | — |
+| REST API Endpoint | YES | — | — | YES | — | YES | YES | — |
+| AJAX Handler | YES | YES | — | YES | — | (if heavy) | YES | — |
+| Admin Settings Page | YES | YES | YES | YES | — | — | YES | — |
+| Widget / Shortcode | YES | — | YES | YES | — | (if heavy) | (if critical) | — |
+| Code Review / Fix | YES | (if JS) | (if CSS) | YES | (if WC) | (if perf issue) | (if critical) | (if block theme) |
 
 When in doubt, read `php-standards.md` and `security-checklist.md` — they apply to virtually everything.
 
@@ -136,12 +140,12 @@ This makes outputs easier to review, verify, and hand off.
    - Use `references/task-recipes.md` for plugin/settings/REST/block/WooCommerce tasks.
 2. **Stronger validation UX (HIGH impact)**
    - Keep preflight first, then linting, then manual QA checklist in output.
-3. **Scaffolding helpers (MEDIUM impact)**
-   - Add optional scripts to scaffold plugin/module skeletons from templates.
-4. **Test recipes (MEDIUM impact)**
-   - Add reusable integration test patterns for AJAX/REST/admin forms.
-5. **Versioned compatibility profiles (MEDIUM impact)**
-   - Add optional profiles for WP/WC support ranges and deprecation-safe patterns.
+3. **Performance baseline (MEDIUM impact)**
+   - Apply `references/performance.md` for caching, query limits, and asset loading strategy.
+4. **Testing-first outputs (MEDIUM impact)**
+   - Apply `references/testing.md` and include PHPUnit/Jest scaffolds for critical logic.
+5. **Modern block-theme support (MEDIUM impact)**
+   - Apply `references/fse.md` for `theme.json`, patterns, and editor data best practices.
 
 ---
 
