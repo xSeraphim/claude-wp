@@ -12,6 +12,7 @@ Before writing any WordPress code, read the relevant reference files from this s
 4. **If JS is involved:** `references/js-standards.md`
 5. **If CSS is involved:** `references/css-standards.md`
 6. **If WooCommerce:** `references/woocommerce.md`
+7. **For common tasks:** `references/task-recipes.md`
 
 ## Config templates
 

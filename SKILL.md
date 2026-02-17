@@ -36,6 +36,7 @@ Generate production-quality WordPress code aligned with PHPCS, ESLint, and Style
 3. Generate code using the loaded standards.
 4. If needed, copy templates from `~/.claude/skills/wordpress-dev/templates/`.
 5. If tools are available, run a preflight check and linters in `~/.claude/skills/wordpress-dev/scripts/`.
+6. For common request types, load `~/.claude/skills/wordpress-dev/references/task-recipes.md` and follow the matching recipe.
 
 ---
 
@@ -112,6 +113,35 @@ After copying, **always** replace placeholder values:
 - `CHANGE-ME` → actual text domain (e.g., `my-plugin`)
 - `change_me` → actual function/class prefix (e.g., `my_plugin`)
 - `my-project` → actual project name in package.json
+
+---
+
+
+## Output Quality Contract
+
+For every non-trivial coding task, include in the response:
+- file tree (or changed-file list),
+- what was implemented per file,
+- commands run (or exact commands the user should run),
+- manual test checklist,
+- assumptions and follow-up improvements.
+
+This makes outputs easier to review, verify, and hand off.
+
+---
+
+## Feature Roadmap (Prioritized)
+
+1. **Recipe-driven generation (HIGH impact)**
+   - Use `references/task-recipes.md` for plugin/settings/REST/block/WooCommerce tasks.
+2. **Stronger validation UX (HIGH impact)**
+   - Keep preflight first, then linting, then manual QA checklist in output.
+3. **Scaffolding helpers (MEDIUM impact)**
+   - Add optional scripts to scaffold plugin/module skeletons from templates.
+4. **Test recipes (MEDIUM impact)**
+   - Add reusable integration test patterns for AJAX/REST/admin forms.
+5. **Versioned compatibility profiles (MEDIUM impact)**
+   - Add optional profiles for WP/WC support ranges and deprecation-safe patterns.
 
 ---
 

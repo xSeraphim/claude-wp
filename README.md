@@ -34,6 +34,7 @@ Installs to `~/.claude/skills/wordpress-dev/`.
 | `references/css-standards.md` | CSS standards (Stylelint @wordpress/stylelint-config) |
 | `references/security-checklist.md` | Security patterns — escaping, sanitization, nonces, SQL |
 | `references/woocommerce.md` | WooCommerce-specific hooks, HPOS, CRUD API |
+| `references/task-recipes.md` | Recipe playbooks for common tasks (plugin/settings/REST/block/WC) |
 | `templates/` | Ready-to-copy config files (phpcs.xml.dist, eslintrc, etc.) |
 | `scripts/` | Cross-platform setup, preflight checks, and linting scripts |
 
@@ -48,7 +49,7 @@ Installs to `~/.claude/skills/wordpress-dev/`.
 
 ## Setting up linting (optional)
 
-The reference files work standalone — Claude reads them and follows the standards. For automated linting:
+The reference files work standalone — Claude reads them and follows the standards. For best results, use task recipes + preflight + linting:
 
 **Linux / macOS / WSL / Git Bash:**
 ```bash
