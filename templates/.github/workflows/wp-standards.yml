@@ -1,0 +1,39 @@
+name: WordPress Standards
+
+on:
+  pull_request:
+  push:
+    branches: [ main, master ]
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Composer deps
+        run: composer install --no-interaction --no-progress
+
+      - name: Install npm deps
+        run: npm ci
+
+      - name: Run PHPCS
+        run: vendor/bin/phpcs --standard=phpcs.xml.dist --extensions=php --ignore="*/vendor/*,*/node_modules/*,*/build/*" .
+
+      - name: Run ESLint
+        run: npx eslint . --ext .js,.jsx --ignore-pattern node_modules --ignore-pattern build --ignore-pattern vendor
+
+      - name: Run Stylelint
+        run: npx stylelint "**/*.{css,scss}" --ignore-path .gitignore

@@ -5,8 +5,8 @@ description: >
   WooCommerce extensions, mu-plugins, custom blocks, REST endpoints, or any WordPress PHP/JS/CSS.
   Triggers: "WordPress", "WP plugin", "WP theme", "PHPCS", "WPCS", "WordPress coding standards",
   "WooCommerce", or requests to build/review/fix WordPress-related code.
-  Ensures all generated code passes PHPCS (WordPress standard), ESLint (@wordpress/eslint-plugin),
-  and Stylelint (@wordpress/stylelint-config) with zero errors.
+  Produces WordPress code aligned with PHPCS (WordPress standard), ESLint (@wordpress/eslint-plugin),
+  and Stylelint (@wordpress/stylelint-config) rules.
 allowed-tools:
   - Read
   - Grep
@@ -18,7 +18,7 @@ allowed-tools:
 
 # WordPress Development Skill
 
-Generate production-quality WordPress code that passes PHPCS, ESLint, and Stylelint with WordPress coding standards — zero errors out of the box.
+Generate production-quality WordPress code aligned with PHPCS, ESLint, and Stylelint WordPress standards.
 
 **Skill directory:** `~/.claude/skills/wordpress-dev/`
 
@@ -26,34 +26,38 @@ Generate production-quality WordPress code that passes PHPCS, ESLint, and Stylel
 
 ## Quick Start
 
-1. **Read this file** (you're doing it now).
-2. **Identify what the user needs** — plugin, theme, WooCommerce extension, block, REST API, etc.
-3. **Read the relevant reference files** before writing any code. Use the Read tool with these absolute paths:
-   - Always read: `~/.claude/skills/wordpress-dev/references/php-standards.md`
-   - Always read: `~/.claude/skills/wordpress-dev/references/security-checklist.md`
+1. Identify the request type (plugin, theme, WooCommerce extension, block, REST API, etc.).
+2. Read required references **before** writing code:
+   - Always: `~/.claude/skills/wordpress-dev/references/php-standards.md`
+   - Always: `~/.claude/skills/wordpress-dev/references/security-checklist.md`
    - If JS is involved: `~/.claude/skills/wordpress-dev/references/js-standards.md`
    - If CSS/SCSS is involved: `~/.claude/skills/wordpress-dev/references/css-standards.md`
-   - If WooCommerce: `~/.claude/skills/wordpress-dev/references/woocommerce.md`
-4. **Generate code** following the standards from those references.
-5. Optionally **copy config templates** from `~/.claude/skills/wordpress-dev/templates/` into the project root.
-6. Optionally **run linters** using scripts in `~/.claude/skills/wordpress-dev/scripts/`.
+   - If WooCommerce is involved: `~/.claude/skills/wordpress-dev/references/woocommerce.md`
+   - If high-traffic/query-heavy: `~/.claude/skills/wordpress-dev/references/performance.md`
+   - If block theme/FSE: `~/.claude/skills/wordpress-dev/references/fse.md`
+   - If critical logic or endpoints: `~/.claude/skills/wordpress-dev/references/testing.md`
+3. Generate code using the loaded standards.
+4. If needed, copy templates from `~/.claude/skills/wordpress-dev/templates/`.
+5. If tools are available, run a preflight check and linters in `~/.claude/skills/wordpress-dev/scripts/`.
+6. For common request types, load `~/.claude/skills/wordpress-dev/references/task-recipes.md` and follow the matching recipe.
+7. If WordPress MCP is available, load `~/.claude/skills/wordpress-dev/references/mcp-wordpress.md` and incorporate live context safely.
 
 ---
 
 ## Decision Matrix: Which References to Read
 
-| Request Type | php-standards | js-standards | css-standards | security-checklist | woocommerce |
-|---|---|---|---|---|---|
-| Plugin (PHP only) | YES | — | — | YES | — |
-| Plugin (full stack) | YES | YES | YES | YES | — |
-| Theme | YES | YES | YES | YES | — |
-| Gutenberg Block | YES | YES | YES | — | — |
-| WooCommerce Extension | YES | YES | YES | YES | YES |
-| REST API Endpoint | YES | — | — | YES | — |
-| AJAX Handler | YES | YES | — | YES | — |
-| Admin Settings Page | YES | YES | YES | YES | — |
-| Widget / Shortcode | YES | — | YES | YES | — |
-| Code Review / Fix | YES | (if JS) | (if CSS) | YES | (if WC) |
+| Request Type | php-standards | js-standards | css-standards | security-checklist | woocommerce | performance | testing | fse |
+|---|---|---|---|---|---|---|---|---|
+| Plugin (PHP only) | YES | — | — | YES | — | (if heavy) | (if critical) | — |
+| Plugin (full stack) | YES | YES | YES | YES | — | (if heavy) | (if critical) | — |
+| Theme | YES | YES | YES | YES | — | (if heavy) | (if critical) | (if block theme) |
+| Gutenberg Block | YES | YES | YES | — | — | (if heavy) | (if critical) | YES |
+| WooCommerce Extension | YES | YES | YES | YES | YES | YES | (if critical) | — |
+| REST API Endpoint | YES | — | — | YES | — | YES | YES | — |
+| AJAX Handler | YES | YES | — | YES | — | (if heavy) | YES | — |
+| Admin Settings Page | YES | YES | YES | YES | — | — | YES | — |
+| Widget / Shortcode | YES | — | YES | YES | — | (if heavy) | (if critical) | — |
+| Code Review / Fix | YES | (if JS) | (if CSS) | YES | (if WC) | (if perf issue) | (if critical) | (if block theme) |
 
 When in doubt, read `php-standards.md` and `security-checklist.md` — they apply to virtually everything.
 
@@ -81,9 +85,21 @@ bash ~/.claude/skills/wordpress-dev/scripts/lint-all.sh /path/to/project [--fix]
 & $env:USERPROFILE\.claude\skills\wordpress-dev\scripts\lint-all.ps1 -ProjectDir C:\path\to\project [-Fix]
 ```
 
-If linting tools are unavailable, **rely on the reference files** — they are comprehensive enough to produce clean code.
+Run a preflight check before linting to catch unresolved placeholders and missing config:
 
-**Warnings are acceptable.** Errors are not. The goal is: `FOUND 0 ERRORS`.
+**Linux / macOS / WSL / Git Bash:**
+```bash
+bash ~/.claude/skills/wordpress-dev/scripts/preflight-check.sh /path/to/project
+```
+
+**Windows (PowerShell):**
+```powershell
+& $env:USERPROFILE\.claude\skills\wordpress-dev\scripts\preflight-check.ps1 -ProjectDir C:\path\to\project
+```
+
+If linting tools are unavailable, rely on the reference files and still follow all standards.
+
+Treat warnings as acceptable unless the user asks for warning-free output. Errors are not acceptable.
 
 ---
 
@@ -101,6 +117,35 @@ After copying, **always** replace placeholder values:
 - `CHANGE-ME` → actual text domain (e.g., `my-plugin`)
 - `change_me` → actual function/class prefix (e.g., `my_plugin`)
 - `my-project` → actual project name in package.json
+
+---
+
+
+## Output Quality Contract
+
+For every non-trivial coding task, include in the response:
+- file tree (or changed-file list),
+- what was implemented per file,
+- commands run (or exact commands the user should run),
+- manual test checklist,
+- assumptions and follow-up improvements.
+
+This makes outputs easier to review, verify, and hand off.
+
+---
+
+## Feature Roadmap (Prioritized)
+
+1. **Recipe-driven generation (HIGH impact)**
+   - Use `references/task-recipes.md` for plugin/settings/REST/block/WooCommerce tasks.
+2. **Stronger validation UX (HIGH impact)**
+   - Keep preflight first, then linting, then manual QA checklist in output.
+3. **Performance baseline (MEDIUM impact)**
+   - Apply `references/performance.md` for caching, query limits, and asset loading strategy.
+4. **Testing-first outputs (MEDIUM impact)**
+   - Apply `references/testing.md` and include PHPUnit/Jest scaffolds for critical logic.
+5. **Modern block-theme support (MEDIUM impact)**
+   - Apply `references/fse.md` for `theme.json`, patterns, and editor data best practices.
 
 ---
 

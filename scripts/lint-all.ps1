@@ -118,7 +118,7 @@ if ($RunJs) {
     if (Test-Path $eslint) {
         $jsFiles = Get-ChildItem -Path $ProjectDir -Recurse -Include "*.js", "*.jsx" -File |
             Where-Object { $_.FullName -notmatch '(node_modules|vendor|build|\.git)' } |
-            Select-Object -First 100 -ExpandProperty FullName
+            Select-Object -ExpandProperty FullName
 
         if ($jsFiles) {
             $fixFlag = @()
@@ -152,7 +152,7 @@ if ($RunCss) {
     if (Test-Path $stylelint) {
         $cssFiles = Get-ChildItem -Path $ProjectDir -Recurse -Include "*.css", "*.scss" -File |
             Where-Object { $_.FullName -notmatch '(node_modules|vendor|build|\.git)' } |
-            Select-Object -First 100 -ExpandProperty FullName
+            Select-Object -ExpandProperty FullName
 
         if ($cssFiles) {
             $fixFlag = @()

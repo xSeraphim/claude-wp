@@ -7,7 +7,7 @@
 #
 # Works on: Linux, macOS, WSL, Git Bash (Windows)
 
-set -o pipefail
+set -u -o pipefail
 
 if [ -z "$1" ]; then
     echo "Usage: bash lint-all.sh <project-directory> [--fix] [--php-only] [--js-only] [--css-only]"
@@ -90,20 +90,23 @@ fi
 if [ "$RUN_JS" = true ]; then
     echo "--- JavaScript (ESLint) ---"
     if [ -f "$ESLINT" ] || [ -f "$ESLINT.cmd" ]; then
-        JS_FILES=$(find "$PROJECT_DIR" \( -name "*.js" -o -name "*.jsx" \) \
+        if find "$PROJECT_DIR" \( -name "*.js" -o -name "*.jsx" \) \
             -not -path "*/node_modules/*" \
             -not -path "*/vendor/*" \
             -not -path "*/build/*" \
             -not -path "*/.git/*" \
-            2>/dev/null | head -100)
-
-        if [ -n "$JS_FILES" ]; then
+            -print -quit 2>/dev/null | grep -q .; then
             FIX_FLAG=""
             if [ "$FIX" = true ]; then
                 FIX_FLAG="--fix"
             fi
 
-            echo "$JS_FILES" | xargs "$ESLINT" $FIX_FLAG --no-error-on-unmatched-pattern 2>&1
+            find "$PROJECT_DIR" \( -name "*.js" -o -name "*.jsx" \) \
+                -not -path "*/node_modules/*" \
+                -not -path "*/vendor/*" \
+                -not -path "*/build/*" \
+                -not -path "*/.git/*" \
+                -print0 2>/dev/null | xargs -0 "$ESLINT" $FIX_FLAG --no-error-on-unmatched-pattern 2>&1
             result=$?
 
             if [ $result -eq 0 ]; then
@@ -125,20 +128,23 @@ fi
 if [ "$RUN_CSS" = true ]; then
     echo "--- CSS (Stylelint) ---"
     if [ -f "$STYLELINT" ] || [ -f "$STYLELINT.cmd" ]; then
-        CSS_FILES=$(find "$PROJECT_DIR" \( -name "*.css" -o -name "*.scss" \) \
+        if find "$PROJECT_DIR" \( -name "*.css" -o -name "*.scss" \) \
             -not -path "*/node_modules/*" \
             -not -path "*/vendor/*" \
             -not -path "*/build/*" \
             -not -path "*/.git/*" \
-            2>/dev/null | head -100)
-
-        if [ -n "$CSS_FILES" ]; then
+            -print -quit 2>/dev/null | grep -q .; then
             FIX_FLAG=""
             if [ "$FIX" = true ]; then
                 FIX_FLAG="--fix"
             fi
 
-            echo "$CSS_FILES" | xargs "$STYLELINT" $FIX_FLAG 2>&1
+            find "$PROJECT_DIR" \( -name "*.css" -o -name "*.scss" \) \
+                -not -path "*/node_modules/*" \
+                -not -path "*/vendor/*" \
+                -not -path "*/build/*" \
+                -not -path "*/.git/*" \
+                -print0 2>/dev/null | xargs -0 "$STYLELINT" $FIX_FLAG 2>&1
             result=$?
 
             if [ $result -eq 0 ]; then

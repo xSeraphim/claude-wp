@@ -12,6 +12,11 @@ Before writing any WordPress code, read the relevant reference files from this s
 4. **If JS is involved:** `references/js-standards.md`
 5. **If CSS is involved:** `references/css-standards.md`
 6. **If WooCommerce:** `references/woocommerce.md`
+7. **If performance-sensitive:** `references/performance.md`
+8. **If critical logic/endpoints:** `references/testing.md`
+9. **If block theme/FSE work:** `references/fse.md`
+10. **For common tasks:** `references/task-recipes.md`
+11. **If MCP is available:** `references/mcp-wordpress.md`
 
 ## Config templates
 
@@ -19,10 +24,10 @@ When creating a new WordPress project, copy the relevant files from `templates/`
 
 ## Linting
 
-Run linters using the platform-appropriate script from `scripts/`:
+Run checks using the platform-appropriate scripts from `scripts/`:
 
-- **Bash (Linux/macOS/WSL):** `bash scripts/setup-environment.sh <project>` then `bash scripts/lint-all.sh <project> --fix`
-- **PowerShell (Windows):** `scripts\setup-environment.ps1 -ProjectDir <project>` then `scripts\lint-all.ps1 -ProjectDir <project> -Fix`
+- **Bash (Linux/macOS/WSL):** `bash scripts/setup-environment.sh <project>` then `bash scripts/preflight-check.sh <project>` then `bash scripts/lint-all.sh <project> --fix`
+- **PowerShell (Windows):** `scripts\setup-environment.ps1 -ProjectDir <project>` then `scripts\preflight-check.ps1 -ProjectDir <project>` then `scripts\lint-all.ps1 -ProjectDir <project> -Fix`
 
 ## Critical rules (always follow)
 
